@@ -1,249 +1,229 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap');
-
-*{margin:0;padding:0;box-sizing:border-box}
 :root{
-  --teal-dark:#085041;
-  --teal-mid:#0F6E56;
-  --teal:#1D9E75;
-  --teal-light:#5DCAA5;
-  --teal-pale:#E1F5EE;
-  --teal-soft:#9FE1CB;
-  --ink:#0D1F1A;
-  --ink-mid:#2A3F38;
-  --ink-soft:#5A7068;
-  --cream:#F7FAF8;
-  --white:#ffffff;
-  --border:#D4EDE5;
+  --green:#0F6E56;
+  --green-dark:#085041;
+  --light:#F7FAF8;
+  --text:#1a2b25;
+  --muted:#6b7f77;
 }
-body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--ink);overflow-x:hidden}
 
-nav{display:flex;align-items:center;justify-content:space-between;padding:1.2rem 2.5rem;background:var(--white);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}
-.logo-wrap{display:flex;align-items:center;gap:12px}
-.logo-circle{width:40px;height:40px;border-radius:50%;background:var(--teal-mid);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:2px}
-.logo-text-wr{font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;color:#E1F5EE;line-height:1}
-.logo-arrow{width:18px;height:2px;background:#5DCAA5;position:relative}
-.logo-arrow::before{content:'';position:absolute;left:-2px;top:-3px;border-top:4px solid transparent;border-bottom:4px solid transparent;border-right:7px solid #5DCAA5}
-.logo-name{font-family:'DM Serif Display',serif;font-size:20px;color:var(--teal-dark);letter-spacing:-0.3px}
-.logo-name span{color:var(--teal)}
-nav a{font-size:14px;color:var(--ink-soft);text-decoration:none;margin-left:1.5rem}
-nav a:hover{color:var(--teal)}
-.nav-cta{background:var(--teal-mid);color:#E1F5EE !important;padding:8px 18px;border-radius:6px;font-weight:500}
-.nav-cta:hover{background:var(--teal-dark) !important}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  font-family:'DM Sans',sans-serif;
+  background:var(--light);
+  color:var(--text);
+}
 
-.hero{display:grid;grid-template-columns:1fr 1fr;min-height:78vh;align-items:center;padding:0 2.5rem;gap:3rem;background:var(--white)}
-.hero-left{padding:3rem 0}
-.hero-eyebrow{display:inline-flex;align-items:center;gap:8px;background:var(--teal-pale);color:var(--teal-mid);font-size:12px;font-weight:500;padding:5px 14px;border-radius:20px;margin-bottom:1.5rem;letter-spacing:0.5px}
-.hero-eyebrow::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--teal)}
-h1{font-family:'DM Serif Display',serif;font-size:clamp(36px,4.5vw,56px);line-height:1.1;color:var(--ink);margin-bottom:1.2rem;letter-spacing:-1px}
-h1 em{color:var(--teal);font-style:italic}
-.hero-sub{font-size:17px;color:var(--ink-soft);line-height:1.7;max-width:420px;margin-bottom:2rem;font-weight:300}
-.hero-btns{display:flex;gap:12px;flex-wrap:wrap}
-.btn-primary{background:var(--teal-mid);color:#E1F5EE;padding:13px 28px;border-radius:8px;font-size:15px;font-weight:500;text-decoration:none;border:none;cursor:pointer;transition:background .2s}
-.btn-primary:hover{background:var(--teal-dark)}
-.btn-secondary{background:transparent;color:var(--teal-mid);padding:13px 28px;border-radius:8px;font-size:15px;font-weight:500;text-decoration:none;border:1.5px solid var(--teal-light);cursor:pointer;transition:all .2s}
-.btn-secondary:hover{background:var(--teal-pale)}
-.hero-stats{display:flex;gap:2rem;margin-top:2.5rem;padding-top:2rem;border-top:1px solid var(--border)}
-.stat-num{font-family:'DM Serif Display',serif;font-size:28px;color:var(--teal-dark)}
-.stat-label{font-size:12px;color:var(--ink-soft);margin-top:2px}
+/* NAV */
+nav{
+  display:flex;
+  justify-content:space-between;
+  padding:1.2rem 2rem;
+  background:white;
+  border-bottom:1px solid #eee;
+  position:sticky;
+  top:0;
+}
+nav a{
+  margin-left:1.5rem;
+  text-decoration:none;
+  color:var(--muted);
+}
+nav a:hover{color:var(--green)}
 
-.hero-right{display:flex;justify-content:center;align-items:center}
-.mockup-card{background:var(--white);border:1px solid var(--border);border-radius:16px;padding:1.5rem;width:100%;max-width:360px;box-shadow:0 8px 40px rgba(13,31,26,.08)}
-.mockup-header{display:flex;align-items:center;gap:10px;margin-bottom:1.2rem;padding-bottom:1rem;border-bottom:1px solid var(--border)}
-.mockup-avatar{width:36px;height:36px;border-radius:50%;background:var(--teal-pale);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:500;color:var(--teal-mid)}
-.mockup-title{font-size:14px;font-weight:500;color:var(--ink)}
-.mockup-sub{font-size:11px;color:var(--ink-soft)}
-.score-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
-.score-label{font-size:13px;color:var(--ink-soft)}
-.score-bar-wrap{flex:1;height:6px;background:var(--teal-pale);border-radius:3px;margin:0 10px}
-.score-bar{height:100%;border-radius:3px;background:var(--teal)}
-.score-val{font-size:13px;font-weight:500;color:var(--teal-dark);min-width:30px;text-align:right}
-.mockup-verdict{margin-top:1rem;background:var(--teal-pale);border-radius:8px;padding:.8rem 1rem;display:flex;align-items:center;gap:10px}
-.verdict-dot{width:10px;height:10px;border-radius:50%;background:var(--teal);flex-shrink:0}
-.verdict-text{font-size:13px;color:var(--teal-dark);font-weight:500}
+/* HERO */
+.hero{
+  padding:5rem 2rem;
+  max-width:900px;
+}
+h1{
+  font-family:'DM Serif Display',serif;
+  font-size:48px;
+  line-height:1.1;
+}
+.hero p{
+  color:var(--muted);
+  max-width:500px;
+}
+.btn{
+  display:inline-block;
+  margin-top:1rem;
+  padding:12px 22px;
+  border-radius:6px;
+  text-decoration:none;
+}
+.primary{background:var(--green);color:white}
+.secondary{border:1px solid var(--green);color:var(--green)}
 
-.section{padding:5rem 2.5rem;max-width:1100px;margin:0 auto}
-.section-label{font-size:12px;font-weight:500;color:var(--teal);letter-spacing:2px;text-transform:uppercase;margin-bottom:.8rem}
-h2{font-family:'DM Serif Display',serif;font-size:clamp(28px,3.5vw,42px);color:var(--ink);line-height:1.15;letter-spacing:-.5px;margin-bottom:1rem}
-.section-intro{font-size:16px;color:var(--ink-soft);line-height:1.7;max-width:560px;font-weight:300}
+/* SECTION */
+section{
+  padding:4rem 2rem;
+  max-width:1000px;
+  margin:auto;
+}
 
-.offers-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-top:2.5rem}
-.offer-card{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:1.5rem;transition:border-color .2s}
-.offer-card:hover{border-color:var(--teal-light)}
-.offer-card.featured{border:2px solid var(--teal);background:var(--teal-dark);color:#E1F5EE}
-.offer-badge{display:inline-block;font-size:11px;font-weight:500;padding:3px 10px;border-radius:20px;background:var(--teal-pale);color:var(--teal-mid);margin-bottom:.8rem}
-.offer-card.featured .offer-badge{background:rgba(255,255,255,.15);color:#9FE1CB}
-.offer-name{font-family:'DM Serif Display',serif;font-size:22px;margin-bottom:.4rem}
-.offer-card.featured .offer-name{color:#E1F5EE}
-.offer-price{font-size:28px;font-weight:500;color:var(--teal-dark);margin-bottom:.3rem}
-.offer-card.featured .offer-price{color:#5DCAA5}
-.offer-desc{font-size:13px;color:var(--ink-soft);line-height:1.6;margin-bottom:1rem}
-.offer-card.featured .offer-desc{color:#9FE1CB}
-.offer-items{list-style:none;font-size:13px;color:var(--ink-soft)}
-.offer-items li{padding:5px 0;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px}
-.offer-card.featured .offer-items li{border-color:rgba(255,255,255,.1);color:#9FE1CB}
-.offer-items li::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--teal-light);flex-shrink:0}
-.offer-card.featured .offer-items li::before{background:#5DCAA5}
+/* OFFERS */
+.offer{
+  background:white;
+  padding:1.5rem;
+  border-radius:10px;
+  margin-bottom:1rem;
+  cursor:pointer;
+  transition:.2s;
+}
+.offer:hover{
+  transform:translateY(-3px);
+  box-shadow:0 10px 25px rgba(0,0,0,.05);
+}
+.details{display:none;color:var(--muted);margin-top:10px}
+.offer.active .details{display:block}
 
-.why-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-top:2.5rem}
-.why-card{padding:1.4rem;border-radius:10px;background:var(--white);border:1px solid var(--border)}
-.why-icon{width:36px;height:36px;border-radius:8px;background:var(--teal-pale);display:flex;align-items:center;justify-content:center;margin-bottom:.8rem}
-.why-title{font-size:15px;font-weight:500;color:var(--ink);margin-bottom:.4rem}
-.why-desc{font-size:13px;color:var(--ink-soft);line-height:1.6}
+/* STORY */
+.story{
+  background:white;
+  border-radius:10px;
+  padding:2rem;
+  line-height:1.7;
+}
 
-.cta-band{background:var(--teal-dark);padding:4rem 2.5rem;text-align:center}
-.cta-band h2{color:#E1F5EE;margin-bottom:.8rem}
-.cta-band p{color:#9FE1CB;font-size:16px;font-weight:300;margin-bottom:2rem}
-.btn-white{background:#E1F5EE;color:var(--teal-dark);padding:14px 32px;border-radius:8px;font-size:15px;font-weight:500;text-decoration:none;border:none;cursor:pointer}
+/* FORM */
+form{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  max-width:500px;
+  margin:auto;
+}
+input, textarea{
+  padding:12px;
+  border-radius:6px;
+  border:none;
+}
+button{
+  padding:12px;
+  border:none;
+  background:white;
+  color:var(--green-dark);
+  border-radius:6px;
+  cursor:pointer;
+}
 
-footer{background:var(--ink);padding:2rem 2.5rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
-footer .logo-name{color:#9FE1CB}
-footer .logo-name span{color:#5DCAA5}
-footer p{font-size:13px;color:#5A7068}
+/* CTA */
+.cta{
+  background:var(--green);
+  color:white;
+  text-align:center;
+}
 
-@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-.hero-left>*{animation:fadeUp .6s ease both}
-.hero-eyebrow{animation-delay:.1s}
-h1{animation-delay:.2s}
-.hero-sub{animation-delay:.3s}
-.hero-btns{animation-delay:.4s}
-.hero-stats{animation-delay:.5s}
-.mockup-card{animation:fadeUp .7s .3s ease both}
 </style>
+</head>
+
+<body>
 
 <nav>
-  <div class="logo-wrap">
-    <div class="logo-circle">
-      <span class="logo-text-wr">WR</span>
-      <div class="logo-arrow"></div>
-    </div>
-    <span class="logo-name">West<span>Ready</span></span>
-  </div>
+  <strong>WestReady</strong>
   <div>
-    <a href="#">Services</a>
-    <a href="#">Pourquoi nous</a>
-    <a href="#">À propos</a>
-    <a href="#" class="nav-cta">Obtenir une analyse</a>
+    <a href="#offers">Services</a>
+    <a href="#story">Pourquoi nous</a>
+    <a href="#contact">Contact</a>
   </div>
 </nav>
 
-<section class="hero">
-  <div class="hero-left">
-    <div class="hero-eyebrow">Expertise terrain · USA</div>
-    <h1>Votre produit est-il <em>prêt</em> pour le marché américain ?</h1>
-    <p class="hero-sub">Analyses concrètes et terrain par un étudiant en business actuellement aux États-Unis. Pas de rapport générique — une vraie lecture du marché local.</p>
-    <div class="hero-btns">
-      <a href="#" class="btn-primary">Démarrer mon analyse</a>
-      <a href="#" class="btn-secondary">Voir les offres</a>
-    </div>
-    <div class="hero-stats">
-      <div><div class="stat-num">48h</div><div class="stat-label">Délai de livraison</div></div>
-      <div><div class="stat-num">100%</div><div class="stat-label">Analyse terrain USA</div></div>
-      <div><div class="stat-num">99€</div><div class="stat-label">À partir de</div></div>
+<div class="hero">
+  <h1>Votre produit est-il prêt pour le marché américain ?</h1>
+  <p>Analyse terrain, concrète et actionnable depuis les États-Unis.</p>
+  <a href="#contact" class="btn primary">Recevoir mon analyse</a>
+  <a href="#offers" class="btn secondary">Voir les offres</a>
+</div>
+
+<section id="offers">
+  <h2>Offres</h2>
+
+  <div class="offer" onclick="toggle(this)">
+    <strong>Quick Check — 50€</strong>
+    <div class="details">
+      Validation rapide : prix, concurrence, potentiel global.
     </div>
   </div>
-  <div class="hero-right">
-    <div class="mockup-card">
-      <div class="mockup-header">
-        <div class="mockup-avatar">WR</div>
-        <div><div class="mockup-title">Rapport d'analyse — Cosmétique Bio</div><div class="mockup-sub">Livré en 48h · Marché US</div></div>
-      </div>
-      <div class="score-row"><span class="score-label">Compatibilité prix</span><div class="score-bar-wrap"><div class="score-bar" style="width:82%"></div></div><span class="score-val">82%</span></div>
-      <div class="score-row"><span class="score-label">Attentes culturelles</span><div class="score-bar-wrap"><div class="score-bar" style="width:67%"></div></div><span class="score-val">67%</span></div>
-      <div class="score-row"><span class="score-label">Concurrence locale</span><div class="score-bar-wrap"><div class="score-bar" style="width:54%"></div></div><span class="score-val">54%</span></div>
-      <div class="score-row"><span class="score-label">Potentiel Amazon US</span><div class="score-bar-wrap"><div class="score-bar" style="width:90%"></div></div><span class="score-val">90%</span></div>
-      <div class="mockup-verdict">
-        <div class="verdict-dot"></div>
-        <span class="verdict-text">Produit viable — 3 ajustements recommandés</span>
-      </div>
+
+  <div class="offer" onclick="toggle(this)">
+    <strong>Market Fit — 99€</strong>
+    <div class="details">
+      Analyse complète + recommandations concrètes + call 30 min.
     </div>
+  </div>
+
+  <div class="offer" onclick="toggle(this)">
+    <strong>Deep Dive — 199€</strong>
+    <div class="details">
+      Analyse terrain + stratégie + suivi personnalisé.
+    </div>
+  </div>
+
+</section>
+
+<section id="story">
+  <h2>Pourquoi WestReady</h2>
+  <div class="story">
+    <p>
+      Je suis étudiant en master de commerce international, actuellement aux États-Unis.
+      Mon échange en Californie m’a permis de comprendre en profondeur les dyniques locales du marché.
+    </p>
+    <p>
+      Contrairement aux agences traditionnelles, je suis directement sur le terrain :
+      j’observe les tendances, les comportements d’achat et les attentes des consommateurs américains.
+    </p>
+    <p>
+      Mes études et expériences professionnelles me permettent de proposer une analyse à la fois
+      structurée, stratégique et humaine.
+    </p>
+    <p>
+      Mon objectif est simple : vous donner une vision claire, honnête et exploitable
+      pour réussir votre entrée sur le marché américain.
+    </p>
   </div>
 </section>
 
-<div style="background:var(--white);padding:3rem 2.5rem;border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
-  <div style="max-width:1100px;margin:0 auto">
-    <div class="section-label" style="text-align:center;margin-bottom:1.5rem">Nos offres</div>
-    <div class="offers-grid">
-      <div class="offer-card">
-        <div class="offer-badge">Essentiel</div>
-        <div class="offer-name">Quick Check</div>
-        <div class="offer-price">99 €</div>
-        <div class="offer-desc">Analyse rapide pour valider une première intuition de marché.</div>
-        <ul class="offer-items">
-          <li>Analyse prix & positionnement</li>
-          <li>Top 5 concurrents directs</li>
-          <li>Score de compatibilité US</li>
-          <li>Livraison en 48h</li>
-        </ul>
-      </div>
-      <div class="offer-card featured">
-        <div class="offer-badge">Populaire</div>
-        <div class="offer-name">Market Fit</div>
-        <div class="offer-price">199 €</div>
-        <div class="offer-desc">Analyse complète pour préparer votre entrée sur le marché US.</div>
-        <ul class="offer-items">
-          <li>Tout le Quick Check</li>
-          <li>Audit culturel & packaging</li>
-          <li>Analyse Amazon + retail</li>
-          <li>Recommandations actionnables</li>
-          <li>Appel de 30 min inclus</li>
-        </ul>
-      </div>
-      <div class="offer-card">
-        <div class="offer-badge">Sur-mesure</div>
-        <div class="offer-name">Deep Dive</div>
-        <div class="offer-price">349 €</div>
-        <div class="offer-desc">Pour les entreprises prêtes à lancer une vraie stratégie US.</div>
-        <ul class="offer-items">
-          <li>Tout le Market Fit</li>
-          <li>Veille terrain physique</li>
-          <li>Rapport 15+ pages</li>
-          <li>Suivi 30 jours</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</div>
+<section id="contact" class="cta">
+  <h2>Recevoir mon analyse</h2>
 
-<div style="padding:4rem 2.5rem;max-width:1100px;margin:0 auto">
-  <div class="section-label">Pourquoi WestReady</div>
-  <h2>Un avantage que les autres<br>agences n'ont pas</h2>
-  <div class="why-grid" style="margin-top:2rem">
-    <div class="why-card">
-      <div class="why-icon"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="7" stroke="#0F6E56" stroke-width="1.5"/><path d="M6 9l2 2 4-4" stroke="#0F6E56" stroke-width="1.5" stroke-linecap="round"/></svg></div>
-      <div class="why-title">Sur le terrain, aux USA</div>
-      <div class="why-desc">Étudiant en business actuellement aux États-Unis. Je vis, consomme et observe le marché au quotidien.</div>
-    </div>
-    <div class="why-card">
-      <div class="why-icon"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="2" y="4" width="14" height="10" rx="2" stroke="#0F6E56" stroke-width="1.5"/><path d="M6 8h6M6 11h4" stroke="#0F6E56" stroke-width="1.5" stroke-linecap="round"/></svg></div>
-      <div class="why-title">Rapports actionnables</div>
-      <div class="why-desc">Pas de jargon, pas de données génériques. Des recommandations concrètes que vous pouvez appliquer dès demain.</div>
-    </div>
-    <div class="why-card">
-      <div class="why-icon"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M3 9l4 4 8-8" stroke="#0F6E56" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-      <div class="why-title">Livraison en 48h</div>
-      <div class="why-desc">Vous avez besoin de réponses rapides pour prendre vos décisions. Pas de délais interminables.</div>
-    </div>
-    <div class="why-card">
-      <div class="why-icon"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 2v4M9 12v4M2 9h4M12 9h4" stroke="#0F6E56" stroke-width="1.5" stroke-linecap="round"/></svg></div>
-      <div class="why-title">Prix accessibles</div>
-      <div class="why-desc">Des tarifs pensés pour les PME et entrepreneurs, pas pour les grands groupes avec des budgets illimités.</div>
-    </div>
-  </div>
-</div>
+  <form onsubmit="sendMail(event)">
+    <input type="text" id="product" placeholder="Nom du produit" required>
+    <input type="email" id="email" placeholder="Votre email" required>
+    <textarea id="desc" placeholder="Décrivez votre produit"></textarea>
+    <button type="submit">Envoyer</button>
+  </form>
+</section>
 
-<div class="cta-band">
-  <h2>Votre produit mérite une vraie chance aux USA</h2>
-  <p>Obtenez une analyse honnête et terrain en 48h — sans engagement.</p>
-  <a href="#" class="btn-white">Démarrer pour 99 €</a>
-</div>
+<script>
+function toggle(el){
+  el.classList.toggle("active");
+}
 
-<footer>
-  <div class="logo-wrap">
-    <div class="logo-circle"><span class="logo-text-wr">WR</span><div class="logo-arrow"></div></div>
-    <span class="logo-name">West<span>Ready</span></span>
-  </div>
-  <p>© 2026 WestReady · Analyse de marché américain</p>
-  <p style="font-size:13px;color:#5A7068">contact@westready.com</p>
-</footer>
+function sendMail(e){
+  e.preventDefault();
+
+  const product = document.getElementById("product").value;
+  const email = document.getElementById("email").value;
+  const desc = document.getElementById("desc").value;
+
+  const subject = encodeURIComponent("Demande analyse produit");
+  const body = encodeURIComponent(
+    "Produit: " + product + "\n\nEmail: " + email + "\n\nDescription:\n" + desc
+  );
+
+  window.location.href = `mailto:colomcharlet@gmail.com?subject=${subject}&body=${body}`;
+}
+</script>
+
+</body>
+</html>
