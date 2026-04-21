@@ -2,228 +2,673 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WestReady — Votre produit est-il prêt pour les USA ?</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
-  --green:#0F6E56;
-  --green-dark:#085041;
-  --light:#F7FAF8;
-  --text:#1a2b25;
-  --muted:#6b7f77;
+  --g-dark:#042C18;
+  --g-mid:#0A5C38;
+  --g-base:#15803d;
+  --g-light:#4ade80;
+  --g-pale:#dcfce7;
+  --g-soft:#bbf7d0;
+  --ink:#0a0f0c;
+  --ink2:#2d4a3a;
+  --ink3:#5a7a68;
+  --cream:#f8fdf9;
+  --white:#ffffff;
+  --border:#d1fae5;
 }
-
+*{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{
-  margin:0;
-  font-family:'DM Sans',sans-serif;
-  background:var(--light);
-  color:var(--text);
-}
+body{font-family:'Outfit',sans-serif;background:var(--cream);color:var(--ink);overflow-x:hidden;cursor:none}
+
+/* cursor */
+.cursor{position:fixed;width:10px;height:10px;background:var(--g-base);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:transform .15s,width .2s,height .2s}
+.cursor-ring{position:fixed;width:36px;height:36px;border:1.5px solid var(--g-base);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:transform .08s,width .25s,height .25s,opacity .2s;opacity:.5}
+body:hover .cursor{opacity:1}
+
+/* scrollbar */
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:var(--cream)}
+::-webkit-scrollbar-thumb{background:var(--g-base);border-radius:2px}
 
 /* NAV */
-nav{
-  display:flex;
-  justify-content:space-between;
-  padding:1.2rem 2rem;
-  background:white;
-  border-bottom:1px solid #eee;
-  position:sticky;
-  top:0;
-}
-nav a{
-  margin-left:1.5rem;
-  text-decoration:none;
-  color:var(--muted);
-}
-nav a:hover{color:var(--green)}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1.2rem 3rem;display:flex;align-items:center;justify-content:space-between;transition:all .4s}
+nav.scrolled{background:rgba(248,253,249,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+.logo{display:flex;align-items:center;gap:12px;text-decoration:none}
+.logo-icon{position:relative;width:38px;height:38px}
+.logo-icon svg{width:38px;height:38px}
+.logo-wordmark{display:flex;flex-direction:column;line-height:1}
+.logo-west{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:var(--g-dark);letter-spacing:-.3px}
+.logo-ready{font-family:'Outfit',sans-serif;font-size:11px;font-weight:500;color:var(--g-base);letter-spacing:3px;text-transform:uppercase}
+.nav-links{display:flex;align-items:center;gap:2rem}
+.nav-links a{font-size:14px;font-weight:400;color:var(--ink2);text-decoration:none;transition:color .2s}
+.nav-links a:hover{color:var(--g-base)}
+.nav-btn{background:var(--g-dark);color:var(--g-pale)!important;padding:9px 22px;border-radius:100px;font-size:13px;font-weight:500;letter-spacing:.3px;transition:background .2s,transform .2s!important}
+.nav-btn:hover{background:var(--g-mid)!important;transform:translateY(-1px)!important}
+.lang-toggle{display:flex;background:var(--g-pale);border-radius:100px;padding:3px;gap:2px}
+.lang-btn{font-size:12px;font-weight:500;padding:4px 10px;border-radius:100px;border:none;background:transparent;color:var(--ink3);cursor:none;transition:all .2s}
+.lang-btn.active{background:var(--white);color:var(--g-dark);box-shadow:0 1px 4px rgba(0,0,0,.08)}
 
 /* HERO */
-.hero{
-  padding:5rem 2rem;
-  max-width:900px;
-}
-h1{
-  font-family:'DM Serif Display',serif;
-  font-size:48px;
-  line-height:1.1;
-}
-.hero p{
-  color:var(--muted);
-  max-width:500px;
-}
-.btn{
-  display:inline-block;
-  margin-top:1rem;
-  padding:12px 22px;
-  border-radius:6px;
-  text-decoration:none;
-}
-.primary{background:var(--green);color:white}
-.secondary{border:1px solid var(--green);color:var(--green)}
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:0 3rem;position:relative;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:linear-gradient(135deg,#f0fdf4 0%,#dcfce7 40%,#f8fdf9 100%);z-index:0}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);background-size:60px 60px;opacity:.4;z-index:1}
+.hero-glow{position:absolute;top:-200px;right:-200px;width:700px;height:700px;background:radial-gradient(circle,rgba(74,222,128,.15) 0%,transparent 70%);z-index:1}
+.hero-content{position:relative;z-index:2;max-width:780px}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:8px;background:var(--white);border:1px solid var(--border);padding:6px 16px;border-radius:100px;font-size:12px;font-weight:500;color:var(--g-mid);letter-spacing:.5px;margin-bottom:2rem;box-shadow:0 2px 12px rgba(21,128,61,.08)}
+.hero-eyebrow::before{content:'';width:6px;height:6px;background:var(--g-light);border-radius:50%;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.6;transform:scale(1.3)}}
+.hero h1{font-family:'Cormorant Garamond',serif;font-size:clamp(52px,7vw,88px);line-height:1.0;color:var(--ink);letter-spacing:-2px;margin-bottom:1.5rem}
+.hero h1 em{color:var(--g-base);font-style:italic}
+.hero-sub{font-size:18px;font-weight:300;color:var(--ink2);line-height:1.7;max-width:500px;margin-bottom:2.5rem}
+.hero-actions{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:4rem}
+.btn-dark{display:inline-flex;align-items:center;gap:8px;background:var(--g-dark);color:var(--g-pale);padding:14px 28px;border-radius:100px;font-size:15px;font-weight:500;text-decoration:none;border:none;cursor:none;transition:all .25s;letter-spacing:.2px}
+.btn-dark:hover{background:var(--g-mid);transform:translateY(-2px);box-shadow:0 8px 24px rgba(10,92,56,.25)}
+.btn-outline{display:inline-flex;align-items:center;gap:8px;background:transparent;color:var(--g-dark);padding:14px 28px;border-radius:100px;font-size:15px;font-weight:500;text-decoration:none;border:1.5px solid var(--g-base);cursor:none;transition:all .25s}
+.btn-outline:hover{background:var(--g-pale);transform:translateY(-2px)}
+.arrow-icon{width:16px;height:16px;transition:transform .2s}
+.btn-dark:hover .arrow-icon,.btn-outline:hover .arrow-icon{transform:translate(3px,-3px)}
+.hero-stats{display:flex;gap:3rem}
+.stat{border-left:2px solid var(--g-light);padding-left:1rem}
+.stat-num{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:600;color:var(--g-dark);line-height:1}
+.stat-label{font-size:12px;color:var(--ink3);margin-top:3px;font-weight:400}
+.hero-scroll{position:absolute;bottom:2.5rem;left:3rem;z-index:2;display:flex;align-items:center;gap:8px;font-size:12px;color:var(--ink3)}
+.scroll-line{width:40px;height:1px;background:var(--g-base);animation:scrollLine 2s ease infinite}
+@keyframes scrollLine{0%{transform:scaleX(0);transform-origin:left}50%{transform:scaleX(1);transform-origin:left}51%{transform:scaleX(1);transform-origin:right}100%{transform:scaleX(0);transform-origin:right}}
 
-/* SECTION */
-section{
-  padding:4rem 2rem;
-  max-width:1000px;
-  margin:auto;
-}
+/* REVEAL ANIMATIONS */
+.reveal{opacity:0;transform:translateY(30px);transition:opacity .7s ease,transform .7s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
 
-/* OFFERS */
-.offer{
-  background:white;
-  padding:1.5rem;
-  border-radius:10px;
-  margin-bottom:1rem;
-  cursor:pointer;
-  transition:.2s;
-}
-.offer:hover{
-  transform:translateY(-3px);
-  box-shadow:0 10px 25px rgba(0,0,0,.05);
-}
-.details{display:none;color:var(--muted);margin-top:10px}
-.offer.active .details{display:block}
+/* SECTIONS */
+section{padding:7rem 3rem}
+.section-tag{display:inline-block;font-size:11px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--g-base);margin-bottom:1rem}
+.section-title{font-family:'Cormorant Garamond',serif;font-size:clamp(36px,4vw,52px);color:var(--ink);line-height:1.1;letter-spacing:-1px;margin-bottom:1rem}
+.section-sub{font-size:16px;color:var(--ink3);line-height:1.7;max-width:500px;font-weight:300}
 
-/* STORY */
-.story{
-  background:white;
-  border-radius:10px;
-  padding:2rem;
-  line-height:1.7;
-}
+/* PROBLEMS */
+.problems{background:var(--white)}
+.problems-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);border-radius:16px;overflow:hidden;margin-top:3rem}
+.problem-card{background:var(--white);padding:2rem;transition:background .25s}
+.problem-card:hover{background:#f0fdf4}
+.problem-num{font-family:'Cormorant Garamond',serif;font-size:48px;font-weight:600;color:var(--g-pale);line-height:1;margin-bottom:.5rem}
+.problem-title{font-size:15px;font-weight:600;color:var(--ink);margin-bottom:.5rem}
+.problem-desc{font-size:13px;color:var(--ink3);line-height:1.6}
 
-/* FORM */
-form{
-  display:flex;
-  flex-direction:column;
-  gap:10px;
-  max-width:500px;
-  margin:auto;
-}
-input, textarea{
-  padding:12px;
-  border-radius:6px;
-  border:none;
-}
-button{
-  padding:12px;
-  border:none;
-  background:white;
-  color:var(--green-dark);
-  border-radius:6px;
-  cursor:pointer;
-}
+/* OFFRES CARROUSEL */
+.offers{background:var(--g-dark);overflow:hidden}
+.offers .section-title{color:var(--g-pale)}
+.offers .section-tag{color:var(--g-light)}
+.offers .section-sub{color:var(--g-soft)}
+.carousel-wrap{position:relative;margin-top:3rem}
+.carousel{display:flex;gap:1.5rem;transition:transform .5s cubic-bezier(.4,0,.2,1)}
+.offer-card{min-width:340px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:20px;padding:2.5rem;flex-shrink:0;transition:all .3s;position:relative;overflow:hidden}
+.offer-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,transparent,var(--g-light),transparent);opacity:0;transition:opacity .3s}
+.offer-card:hover::before{opacity:1}
+.offer-card:hover{background:rgba(255,255,255,.1);transform:translateY(-4px)}
+.offer-card.featured{background:rgba(74,222,128,.1);border-color:rgba(74,222,128,.3)}
+.offer-card.featured::before{opacity:1}
+.offer-badge{display:inline-block;font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;padding:4px 12px;border-radius:100px;background:rgba(74,222,128,.15);color:var(--g-light);margin-bottom:1.5rem}
+.offer-card.featured .offer-badge{background:var(--g-light);color:var(--g-dark)}
+.offer-name{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:600;color:var(--white);margin-bottom:.3rem}
+.offer-price{font-size:42px;font-weight:600;color:var(--g-light);line-height:1;margin-bottom:.5rem}
+.offer-price span{font-size:16px;font-weight:300;color:var(--g-soft)}
+.offer-tagline{font-size:13px;color:rgba(255,255,255,.5);margin-bottom:1.5rem;font-style:italic}
+.offer-items{list-style:none;display:flex;flex-direction:column;gap:10px;margin-bottom:2rem}
+.offer-items li{display:flex;align-items:center;gap:10px;font-size:14px;color:rgba(255,255,255,.75)}
+.offer-items li::before{content:'';width:18px;height:18px;border-radius:50%;background:rgba(74,222,128,.2);border:1px solid rgba(74,222,128,.4);flex-shrink:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2 6l3 3 5-5' stroke='%234ade80' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:center}
+.offer-cta{width:100%;padding:12px;border-radius:100px;font-size:14px;font-weight:500;border:1.5px solid rgba(255,255,255,.2);background:transparent;color:var(--white);cursor:none;transition:all .25s;text-align:center}
+.offer-cta:hover,.offer-card.featured .offer-cta{background:var(--g-light);color:var(--g-dark);border-color:var(--g-light)}
+.carousel-controls{display:flex;align-items:center;gap:1rem;margin-top:2rem}
+.carousel-btn{width:44px;height:44px;border-radius:50%;border:1px solid rgba(255,255,255,.2);background:transparent;color:var(--white);cursor:none;display:flex;align-items:center;justify-content:center;transition:all .25s;font-size:18px}
+.carousel-btn:hover{background:var(--g-light);color:var(--g-dark);border-color:var(--g-light)}
+.carousel-dots{display:flex;gap:6px}
+.dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.25);transition:all .3s;cursor:none}
+.dot.active{width:20px;border-radius:3px;background:var(--g-light)}
 
-/* CTA */
-.cta{
-  background:var(--green);
-  color:white;
-  text-align:center;
-}
+/* POURQUOI */
+.why{background:var(--cream)}
+.why-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:3rem}
+.why-card{background:var(--white);border:1px solid var(--border);border-radius:16px;padding:2rem;transition:all .3s;position:relative;overflow:hidden}
+.why-card::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--g-pale),transparent);opacity:0;transition:opacity .3s}
+.why-card:hover{border-color:var(--g-light);transform:translateY(-2px);box-shadow:0 12px 40px rgba(21,128,61,.08)}
+.why-card:hover::after{opacity:1}
+.why-icon{width:44px;height:44px;background:var(--g-pale);border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:1rem;position:relative;z-index:1}
+.why-title{font-size:16px;font-weight:600;color:var(--ink);margin-bottom:.5rem;position:relative;z-index:1}
+.why-desc{font-size:13px;color:var(--ink3);line-height:1.6;position:relative;z-index:1}
 
+/* PROCESS */
+.process{background:var(--white)}
+.process-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:3rem;position:relative}
+.process-steps::before{content:'';position:absolute;top:28px;left:12.5%;right:12.5%;height:1px;background:linear-gradient(90deg,transparent,var(--g-base),transparent)}
+.step{text-align:center;padding:1.5rem 1rem;position:relative}
+.step-num{width:56px;height:56px;border-radius:50%;background:var(--g-pale);border:2px solid var(--g-light);display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:600;color:var(--g-dark);transition:all .3s}
+.step:hover .step-num{background:var(--g-dark);color:var(--g-pale);border-color:var(--g-dark)}
+.step-title{font-size:14px;font-weight:600;color:var(--ink);margin-bottom:.3rem}
+.step-desc{font-size:12px;color:var(--ink3);line-height:1.5}
+
+/* BRANDING */
+.branding{background:linear-gradient(135deg,#f0fdf4,#dcfce7)}
+.branding-grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-top:3rem}
+.brand-card{background:var(--white);border-radius:20px;padding:3rem;display:flex;flex-direction:column;align-items:center;gap:1.5rem;border:1px solid var(--border)}
+.brand-card.dark{background:var(--g-dark);border-color:transparent}
+.brand-label{font-size:12px;font-weight:500;color:var(--ink3);letter-spacing:2px;text-transform:uppercase}
+.brand-card.dark .brand-label{color:var(--g-soft)}
+.brand-legend{display:flex;flex-direction:column;gap:.6rem;width:100%}
+.brand-legend-item{display:flex;align-items:flex-start;gap:10px;font-size:12px;color:var(--ink3);line-height:1.5}
+.brand-card.dark .brand-legend-item{color:rgba(255,255,255,.5)}
+.brand-legend-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;margin-top:2px}
+
+/* CONTACT */
+.contact{background:var(--white)}
+.contact-wrap{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start;margin-top:3rem}
+.contact-info{display:flex;flex-direction:column;gap:1.5rem}
+.contact-item{display:flex;align-items:center;gap:14px;padding:1rem;border-radius:12px;background:var(--cream);border:1px solid var(--border)}
+.contact-icon{width:40px;height:40px;background:var(--g-pale);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.contact-text{font-size:13px;color:var(--ink3)}
+.contact-text strong{display:block;font-size:14px;color:var(--ink);margin-bottom:2px}
+.contact-form{display:flex;flex-direction:column;gap:14px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.form-group{display:flex;flex-direction:column;gap:6px}
+.form-group label{font-size:13px;font-weight:500;color:var(--ink2)}
+.form-group input,.form-group select,.form-group textarea{padding:12px 16px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Outfit',sans-serif;color:var(--ink);background:var(--cream);transition:border-color .2s,box-shadow .2s;outline:none;resize:none}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--g-base);box-shadow:0 0 0 3px rgba(21,128,61,.08);background:var(--white)}
+.form-submit{background:var(--g-dark);color:var(--g-pale);padding:14px 32px;border-radius:100px;font-size:15px;font-weight:500;border:none;cursor:none;transition:all .25s;display:flex;align-items:center;justify-content:center;gap:8px;font-family:'Outfit',sans-serif}
+.form-submit:hover{background:var(--g-mid);transform:translateY(-2px);box-shadow:0 8px 24px rgba(10,92,56,.2)}
+.form-success{display:none;background:var(--g-pale);border:1px solid var(--g-light);border-radius:10px;padding:1rem;font-size:14px;color:var(--g-dark);text-align:center}
+
+/* FOOTER */
+footer{background:var(--g-dark);padding:3rem;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:2rem}
+.footer-copy{font-size:13px;color:rgba(255,255,255,.3)}
+.footer-links{display:flex;gap:2rem}
+.footer-links a{font-size:13px;color:rgba(255,255,255,.4);text-decoration:none;transition:color .2s}
+.footer-links a:hover{color:var(--g-light)}
+.footer-right{text-align:right;font-size:13px;color:rgba(255,255,255,.3)}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  nav{padding:1rem 1.5rem}
+  .nav-links a:not(.nav-btn){display:none}
+  .hero{padding:6rem 1.5rem 3rem}
+  section{padding:4rem 1.5rem}
+  .why-grid{grid-template-columns:1fr}
+  .process-steps{grid-template-columns:1fr 1fr}
+  .process-steps::before{display:none}
+  .contact-wrap{grid-template-columns:1fr}
+  .branding-grid{grid-template-columns:1fr}
+  .form-row{grid-template-columns:1fr}
+  footer{grid-template-columns:1fr;text-align:center}
+  .footer-right{text-align:center}
+  .hero-stats{gap:1.5rem}
+}
 </style>
 </head>
-
 <body>
 
-<nav>
-  <strong>WestReady</strong>
-  <div>
-    <a href="#offers">Services</a>
-    <a href="#story">Pourquoi nous</a>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#" class="logo">
+    <div class="logo-icon">
+      <svg viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="19" cy="19" r="18" fill="#0A5C38"/>
+        <text x="19" y="17" text-anchor="middle" font-family="Outfit,sans-serif" font-size="10" font-weight="600" fill="#bbf7d0">WR</text>
+        <line x1="8" y1="24" x2="28" y2="24" stroke="#4ade80" stroke-width="2"/>
+        <polygon points="6,24 12,20 12,28" fill="#4ade80"/>
+      </svg>
+    </div>
+    <div class="logo-wordmark">
+      <span class="logo-west">West</span>
+      <span class="logo-ready">Ready</span>
+    </div>
+  </a>
+  <div class="nav-links">
+    <a href="#pourquoi">Pourquoi nous</a>
+    <a href="#offres">Offres</a>
+    <a href="#processus">Comment ça marche</a>
     <a href="#contact">Contact</a>
+    <div class="lang-toggle">
+      <button class="lang-btn active" onclick="setLang('fr')">FR</button>
+      <button class="lang-btn" onclick="setLang('en')">EN</button>
+    </div>
+    <a href="#contact" class="nav-btn">Démarrer →</a>
   </div>
 </nav>
 
-<div class="hero">
-  <h1>Votre produit est-il prêt pour le marché américain ?</h1>
-  <p>Analyse terrain, concrète et actionnable depuis les États-Unis.</p>
-  <a href="#contact" class="btn primary">Recevoir mon analyse</a>
-  <a href="#offers" class="btn secondary">Voir les offres</a>
-</div>
-
-<section id="offers">
-  <h2>Offres</h2>
-
-  <div class="offer" onclick="toggle(this)">
-    <strong>Quick Check — 50€</strong>
-    <div class="details">
-      Validation rapide : prix, concurrence, potentiel global.
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow" data-fr="Expertise marché · Orange, California" data-en="Market expertise · Orange, California">Expertise marché · Orange, California</div>
+    <h1 data-fr="Votre produit est-il <em>prêt</em> pour les USA ?" data-en="Is your product <em>ready</em> for the US market?">Votre produit<br>est-il <em>prêt</em><br>pour les USA ?</h1>
+    <p class="hero-sub" data-fr="Des analyses de marché rigoureuses, livrées en 48h par un étudiant en business franco-américain. Pas de rapport générique — une vraie lecture humaine du marché américain." data-en="Rigorous market analysis delivered in 48h by a Franco-American business student. No generic report — a real human read of the American market.">Des analyses de marché rigoureuses, livrées en 48h par un étudiant en business franco-américain. Pas de rapport générique — une vraie lecture humaine du marché américain.</p>
+    <div class="hero-actions">
+      <a href="#contact" class="btn-dark">
+        <span data-fr="Démarrer mon analyse" data-en="Start my analysis">Démarrer mon analyse</span>
+        <svg class="arrow-icon" viewBox="0 0 16 16" fill="none"><path d="M3 13L13 3M13 3H6M13 3v7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </a>
+      <a href="#offres" class="btn-outline">
+        <span data-fr="Voir les offres" data-en="See offers">Voir les offres</span>
+        <svg class="arrow-icon" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 8l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat"><div class="stat-num">48h</div><div class="stat-label" data-fr="Délai de livraison" data-en="Delivery time">Délai de livraison</div></div>
+      <div class="stat"><div class="stat-num">99€</div><div class="stat-label" data-fr="À partir de" data-en="Starting from">À partir de</div></div>
+      <div class="stat"><div class="stat-num">100%</div><div class="stat-label" data-fr="Marché USA" data-en="US Market">Marché USA</div></div>
     </div>
   </div>
-
-  <div class="offer" onclick="toggle(this)">
-    <strong>Market Fit — 99€</strong>
-    <div class="details">
-      Analyse complète + recommandations concrètes + call 30 min.
-    </div>
-  </div>
-
-  <div class="offer" onclick="toggle(this)">
-    <strong>Deep Dive — 199€</strong>
-    <div class="details">
-      Analyse terrain + stratégie + suivi personnalisé.
-    </div>
-  </div>
-
-</section>
-
-<section id="story">
-  <h2>Pourquoi WestReady</h2>
-  <div class="story">
-    <p>
-      Je suis étudiant en master de commerce international, actuellement aux États-Unis.
-      Mon échange en Californie m’a permis de comprendre en profondeur les dyniques locales du marché.
-    </p>
-    <p>
-      Contrairement aux agences traditionnelles, je suis directement sur le terrain :
-      j’observe les tendances, les comportements d’achat et les attentes des consommateurs américains.
-    </p>
-    <p>
-      Mes études et expériences professionnelles me permettent de proposer une analyse à la fois
-      structurée, stratégique et humaine.
-    </p>
-    <p>
-      Mon objectif est simple : vous donner une vision claire, honnête et exploitable
-      pour réussir votre entrée sur le marché américain.
-    </p>
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    <span data-fr="Découvrir" data-en="Discover">Découvrir</span>
   </div>
 </section>
 
-<section id="contact" class="cta">
-  <h2>Recevoir mon analyse</h2>
-
-  <form onsubmit="sendMail(event)">
-    <input type="text" id="product" placeholder="Nom du produit" required>
-    <input type="email" id="email" placeholder="Votre email" required>
-    <textarea id="desc" placeholder="Décrivez votre produit"></textarea>
-    <button type="submit">Envoyer</button>
-  </form>
+<!-- PROBLÈMES -->
+<section class="problems reveal" id="problemes">
+  <div class="section-tag" data-fr="Le problème" data-en="The problem">Le problème</div>
+  <h2 class="section-title" data-fr="Pourquoi tant de produits français échouent aux USA" data-en="Why so many French products fail in the US">Pourquoi tant de produits<br>français échouent aux USA</h2>
+  <p class="section-sub" data-fr="La distance culturelle entre la France et les États-Unis est plus grande qu'on ne le pense. Ces erreurs se paient cher." data-en="The cultural distance between France and the US is greater than you think. These mistakes are costly.">La distance culturelle entre la France et les États-Unis est plus grande qu'on ne le pense. Ces erreurs se paient cher.</p>
+  <div class="problems-grid">
+    <div class="problem-card reveal">
+      <div class="problem-num">01</div>
+      <div class="problem-title" data-fr="Positionnement prix erroné" data-en="Wrong price positioning">Positionnement prix erroné</div>
+      <div class="problem-desc" data-fr="Les trade barriers et les marges distributeurs sont sous-estimées, rendant le produit non compétitif sur le marché américain." data-en="Trade barriers and distributor margins are underestimated, making the product uncompetitive on the US market.">Les trade barriers et les marges distributeurs sont sous-estimées, rendant le produit non compétitif sur le marché américain.</div>
+    </div>
+    <div class="problem-card reveal">
+      <div class="problem-num">02</div>
+      <div class="problem-title" data-fr="Branding culturellement décalé" data-en="Culturally off-brand">Branding culturellement décalé</div>
+      <div class="problem-desc" data-fr="Les codes visuels et les argumentaires français ne résonnent pas de la même façon pour le consommateur américain." data-en="French visual codes and marketing arguments don't resonate the same way with American consumers.">Les codes visuels et les argumentaires français ne résonnent pas de la même façon pour le consommateur américain.</div>
+    </div>
+    <div class="problem-card reveal">
+      <div class="problem-num">03</div>
+      <div class="problem-title" data-fr="Segmentation mal comprise" data-en="Misunderstood segmentation">Segmentation mal comprise</div>
+      <div class="problem-desc" data-fr="Les critères d'achat, les labels attendus (clean, organic, protein…) et les canaux de distribution diffèrent profondément." data-en="Purchase criteria, expected labels (clean, organic, protein…) and distribution channels differ profoundly.">Les critères d'achat, les labels attendus (clean, organic, protein…) et les canaux de distribution diffèrent profondément.</div>
+    </div>
+    <div class="problem-card reveal">
+      <div class="problem-num">04</div>
+      <div class="problem-title" data-fr="Le 'French factor' sous-exploité" data-en="The 'French factor' underused">Le 'French factor' sous-exploité</div>
+      <div class="problem-desc" data-fr="Les Américains ont une vision romantisée de la France — trop peu de marques exploitent cet imaginaire dans leur stratégie d'entrée." data-en="Americans have a romanticized view of France — too few brands leverage this imaginary in their entry strategy.">Les Américains ont une vision romantisée de la France — trop peu de marques exploitent cet imaginaire dans leur stratégie d'entrée.</div>
+    </div>
+  </div>
 </section>
+
+<!-- POURQUOI -->
+<section class="why reveal" id="pourquoi">
+  <div class="section-tag" data-fr="Notre avantage" data-en="Our edge">Notre avantage</div>
+  <h2 class="section-title" data-fr="Un regard que personne d'autre ne peut avoir" data-en="A perspective no one else can offer">Un regard que personne<br>d'autre ne peut avoir</h2>
+  <p class="section-sub" data-fr="Issu d'un Master en Commerce International Franco-Américain, j'ai vécu et étudié à Orange, Californie. Cette expérience terrain est la fondation de chaque analyse WestReady." data-en="Coming from a Franco-American International Business Master's degree, I lived and studied in Orange, California. This on-ground experience is the foundation of every WestReady analysis.">Issu d'un Master en Commerce International Franco-Américain, j'ai vécu et étudié à Orange, Californie. Cette expérience terrain est la fondation de chaque analyse WestReady.</p>
+  <div class="why-grid">
+
+    <!-- CARTE 1 — remplacée -->
+    <div class="why-card reveal">
+      <div class="why-icon">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="8" r="4" stroke="#15803d" stroke-width="1.5"/><path d="M3 18c0-3.866 3.134-7 7-7s7 3.134 7 7" stroke="#15803d" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </div>
+      <div class="why-title" data-fr="Une expérience terrain qui ne s'efface pas" data-en="On-ground experience that doesn't fade">Une expérience terrain qui ne s'efface pas</div>
+      <div class="why-desc" data-fr="Étudiant en Master Commerce International Franco-Américain à l'IAE de Caen, j'ai passé une année universitaire à Chapman University (Orange, CA). Les données collectées, les comportements observés et les dynamiques de marché analysées constituent une base solide et durable — bien au-delà de la simple présence physique." data-en="As a student in Franco-American International Business at IAE Caen, I spent an academic year at Chapman University (Orange, CA). The data collected, behaviors observed and market dynamics analyzed form a solid, lasting foundation — well beyond mere physical presence.">Étudiant en Master Commerce International Franco-Américain à l'IAE de Caen, j'ai passé une année universitaire à Chapman University (Orange, CA). Les données collectées, les comportements observés et les dynamiques de marché analysées constituent une base solide et durable — bien au-delà de la simple présence physique.</div>
+    </div>
+
+    <div class="why-card reveal">
+      <div class="why-icon">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 10h12M10 4l6 6-6 6" stroke="#15803d" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div class="why-title" data-fr="Rapports actionnables en 48h" data-en="Actionable reports in 48h">Rapports actionnables en 48h</div>
+      <div class="why-desc" data-fr="Pas de jargon, pas de données génériques. Des recommandations concrètes que vous pouvez appliquer dès le lendemain de la réception." data-en="No jargon, no generic data. Concrete recommendations you can apply the day after receipt.">Pas de jargon, pas de données génériques. Des recommandations concrètes que vous pouvez appliquer dès le lendemain de la réception.</div>
+    </div>
+
+    <div class="why-card reveal">
+      <div class="why-icon">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="3" y="5" width="14" height="10" rx="2" stroke="#15803d" stroke-width="1.5"/><path d="M7 9h6M7 12h4" stroke="#15803d" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </div>
+      <div class="why-title" data-fr="Tarifs PME & startups" data-en="SME & startup pricing">Tarifs PME & startups</div>
+      <div class="why-desc" data-fr="Une étude de marché classique coûte 5 000 à 30 000€. WestReady démarre à 99€ — 10 à 30 fois moins cher, avec un regard humain en plus." data-en="A classic market study costs €5,000–30,000. WestReady starts at €99 — 10 to 30 times cheaper, with a human perspective.">Une étude de marché classique coûte 5 000 à 30 000€. WestReady démarre à 99€ — 10 à 30 fois moins cher, avec un regard humain en plus.</div>
+    </div>
+
+    <!-- CARTE 4 — remplacée -->
+    <div class="why-card reveal">
+      <div class="why-icon">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2l2.4 5.4L18 8.3l-4 3.9.9 5.4L10 15l-4.9 2.6.9-5.4-4-3.9 5.6-.9z" stroke="#15803d" stroke-width="1.5" stroke-linejoin="round"/></svg>
+      </div>
+      <div class="why-title" data-fr="Des données collectées, une ressource qui dure" data-en="Collected data — a lasting resource">Des données collectées, une ressource qui dure</div>
+      <div class="why-desc" data-fr="Relevés de prix en magasin, comportements d'achat observés, analyse des linéaires, benchmarks concurrents : ces données collectées directement sur le terrain américain forment un corpus structuré que l'IA seule ne peut pas produire." data-en="In-store price surveys, observed purchasing behaviors, shelf analysis, competitor benchmarks: this data collected directly in the US market forms a structured corpus that AI alone cannot produce.">Relevés de prix en magasin, comportements d'achat observés, analyse des linéaires, benchmarks concurrents : ces données collectées directement sur le terrain américain forment un corpus structuré que l'IA seule ne peut pas produire.</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- OFFRES CARROUSEL -->
+<section class="offers reveal" id="offres">
+  <div class="section-tag" data-fr="Nos offres" data-en="Our offers">Nos offres</div>
+  <h2 class="section-title" data-fr="Choisissez votre analyse" data-en="Choose your analysis">Choisissez votre analyse</h2>
+  <p class="section-sub" data-fr="Livraison garantie en 48h ouvrées. Paiement sécurisé par Stripe." data-en="Delivery guaranteed in 48 business hours. Secure payment via Stripe.">Livraison garantie en 48h ouvrées. Paiement sécurisé par Stripe.</p>
+  <div class="carousel-wrap">
+    <div class="carousel" id="carousel">
+      <div class="offer-card">
+        <div class="offer-badge" data-fr="Essentiel" data-en="Essential">Essentiel</div>
+        <div class="offer-name">Quick Check</div>
+        <div class="offer-price">99€ <span data-fr="/ analyse" data-en="/ analysis">/ analyse</span></div>
+        <div class="offer-tagline" data-fr="Pour valider une première intuition" data-en="To validate a first intuition">Pour valider une première intuition</div>
+        <ul class="offer-items">
+          <li data-fr="Analyse prix & positionnement" data-en="Price & positioning analysis">Analyse prix & positionnement</li>
+          <li data-fr="Top 5 concurrents directs" data-en="Top 5 direct competitors">Top 5 concurrents directs</li>
+          <li data-fr="Score de compatibilité marché US" data-en="US market compatibility score">Score de compatibilité marché US</li>
+          <li data-fr="Livraison PDF en 48h" data-en="PDF delivery in 48h">Livraison PDF en 48h</li>
+        </ul>
+        <button class="offer-cta" onclick="scrollToContact('Quick Check — 99€')" data-fr="Choisir cette offre →" data-en="Choose this offer →">Choisir cette offre →</button>
+      </div>
+      <div class="offer-card featured">
+        <div class="offer-badge" data-fr="Le plus populaire" data-en="Most popular">Le plus populaire</div>
+        <div class="offer-name">Market Fit</div>
+        <div class="offer-price">199€ <span data-fr="/ analyse" data-en="/ analysis">/ analyse</span></div>
+        <div class="offer-tagline" data-fr="Pour préparer votre entrée sur le marché US" data-en="To prepare your US market entry">Pour préparer votre entrée sur le marché US</div>
+        <ul class="offer-items">
+          <li data-fr="Tout le Quick Check inclus" data-en="Everything in Quick Check">Tout le Quick Check inclus</li>
+          <li data-fr="Audit culturel & packaging" data-en="Cultural & packaging audit">Audit culturel & packaging</li>
+          <li data-fr="Analyse Amazon US + retail" data-en="Amazon US + retail analysis">Analyse Amazon US + retail</li>
+          <li data-fr="Recommandations actionnables" data-en="Actionable recommendations">Recommandations actionnables</li>
+          <li data-fr="Appel de restitution 30 min" data-en="30 min debrief call">Appel de restitution 30 min</li>
+        </ul>
+        <button class="offer-cta" onclick="scrollToContact('Market Fit — 199€')" data-fr="Choisir cette offre →" data-en="Choose this offer →">Choisir cette offre →</button>
+      </div>
+      <div class="offer-card">
+        <div class="offer-badge" data-fr="Sur-mesure" data-en="Custom">Sur-mesure</div>
+        <div class="offer-name">Deep Dive</div>
+        <div class="offer-price">349€ <span data-fr="/ analyse" data-en="/ analysis">/ analyse</span></div>
+        <div class="offer-tagline" data-fr="Pour une stratégie US complète" data-en="For a complete US strategy">Pour une stratégie US complète</div>
+        <ul class="offer-items">
+          <li data-fr="Tout le Market Fit inclus" data-en="Everything in Market Fit">Tout le Market Fit inclus</li>
+          <li data-fr="Analyse documentaire approfondie des points de vente" data-en="In-depth documentary retail analysis">Analyse documentaire approfondie des points de vente</li>
+          <li data-fr="Rapport complet 15+ pages" data-en="Full 15+ page report">Rapport complet 15+ pages</li>
+          <li data-fr="Suivi client 30 jours" data-en="30-day client follow-up">Suivi client 30 jours</li>
+          <li data-fr="Base de données concurrents incluse" data-en="Competitor database included">Base de données concurrents incluse</li>
+        </ul>
+        <button class="offer-cta" onclick="scrollToContact('Deep Dive — 349€')" data-fr="Choisir cette offre →" data-en="Choose this offer →">Choisir cette offre →</button>
+      </div>
+    </div>
+    <div class="carousel-controls">
+      <button class="carousel-btn" id="prevBtn" onclick="moveCarousel(-1)">←</button>
+      <button class="carousel-btn" id="nextBtn" onclick="moveCarousel(1)">→</button>
+      <div class="carousel-dots">
+        <div class="dot active" onclick="goToSlide(0)"></div>
+        <div class="dot" onclick="goToSlide(1)"></div>
+        <div class="dot" onclick="goToSlide(2)"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESSUS -->
+<section class="process reveal" id="processus">
+  <div class="section-tag" data-fr="Comment ça marche" data-en="How it works">Comment ça marche</div>
+  <h2 class="section-title" data-fr="De votre demande à votre rapport en 48h" data-en="From your request to your report in 48h">De votre demande à votre rapport en 48h</h2>
+  <div class="process-steps">
+    <div class="step reveal">
+      <div class="step-num">1</div>
+      <div class="step-title" data-fr="Vous nous contactez" data-en="You contact us">Vous nous contactez</div>
+      <div class="step-desc" data-fr="Décrivez votre produit et vos objectifs via le formulaire de contact." data-en="Describe your product and goals via the contact form.">Décrivez votre produit et vos objectifs via le formulaire de contact.</div>
+    </div>
+    <div class="step reveal">
+      <div class="step-num">2</div>
+      <div class="step-title" data-fr="On choisit l'offre" data-en="We choose the offer">On choisit l'offre</div>
+      <div class="step-desc" data-fr="On échange rapidement pour définir l'analyse la plus adaptée à vos besoins." data-en="We exchange quickly to define the most suitable analysis for your needs.">On échange rapidement pour définir l'analyse la plus adaptée à vos besoins.</div>
+    </div>
+    <div class="step reveal">
+      <div class="step-num">3</div>
+      <div class="step-title" data-fr="Étude de marché" data-en="Market research">Étude de marché</div>
+      <div class="step-desc" data-fr="J'analyse le marché américain en croisant données collectées, sources sectorielles et benchmarks concurrentiels." data-en="I analyze the US market by combining collected data, industry sources and competitive benchmarks.">J'analyse le marché américain en croisant données collectées, sources sectorielles et benchmarks concurrentiels.</div>
+    </div>
+    <div class="step reveal">
+      <div class="step-num">4</div>
+      <div class="step-title" data-fr="Rapport livré en 48h" data-en="Report delivered in 48h">Rapport livré en 48h</div>
+      <div class="step-desc" data-fr="Vous recevez un rapport PDF complet avec recommandations actionnables." data-en="You receive a complete PDF report with actionable recommendations.">Vous recevez un rapport PDF complet avec recommandations actionnables.</div>
+    </div>
+  </div>
+</section>
+
+<!-- BRANDING -->
+<section class="branding reveal" id="branding">
+  <div class="section-tag" data-fr="Notre identité" data-en="Our identity">Notre identité</div>
+  <h2 class="section-title" data-fr="Le logo WestReady" data-en="The WestReady logo">Le logo WestReady</h2>
+  <p class="section-sub" data-fr="Deux éléments visuels, deux intentions claires." data-en="Two visual elements, two clear intentions.">Deux éléments visuels, deux intentions claires.</p>
+  <div class="branding-grid">
+
+    <div class="brand-card">
+      <div class="brand-label" data-fr="Version claire" data-en="Light version">Version claire</div>
+      <svg width="120" height="120" viewBox="0 0 120 120" fill="none">
+        <circle cx="60" cy="60" r="56" fill="#E1F5EE" stroke="#9FE1CB" stroke-width="2"/>
+        <text x="60" y="54" text-anchor="middle" font-family="Outfit,sans-serif" font-size="28" font-weight="600" fill="#085041">WR</text>
+        <line x1="24" y1="72" x2="88" y2="72" stroke="#1D9E75" stroke-width="3"/>
+        <polygon points="20,72 34,64 34,80" fill="#1D9E75"/>
+        <text x="60" y="90" text-anchor="middle" font-family="Outfit,sans-serif" font-size="9" font-weight="500" fill="#0F6E56" letter-spacing="4">WESTREADY</text>
+      </svg>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:28px;color:#085041;font-weight:600;letter-spacing:-0.5px">West<span style="color:#1D9E75">Ready</span></div>
+      <div class="brand-legend">
+        <div class="brand-legend-item">
+          <div class="brand-legend-dot" style="background:#1D9E75"></div>
+          <span data-fr="La flèche pointant vers la gauche symbolise la direction ouest — vers le continent américain, cap mis sur le marché US." data-en="The left-pointing arrow symbolizes the westward direction — toward the American continent, heading for the US market.">La flèche pointant vers la gauche symbolise la direction ouest — vers le continent américain, cap mis sur le marché US.</span>
+        </div>
+        <div class="brand-legend-item">
+          <div class="brand-legend-dot" style="background:#085041"></div>
+          <span data-fr="Le vert évoque la croissance, l'opportunité et la vitalité — l'énergie d'un marché à conquérir." data-en="Green evokes growth, opportunity and vitality — the energy of a market to conquer.">Le vert évoque la croissance, l'opportunité et la vitalité — l'énergie d'un marché à conquérir.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="brand-card dark">
+      <div class="brand-label" data-fr="Version sombre" data-en="Dark version">Version sombre</div>
+      <svg width="120" height="120" viewBox="0 0 120 120" fill="none">
+        <circle cx="60" cy="60" r="56" fill="#0A5C38" stroke="#4ade80" stroke-width="1.5"/>
+        <text x="60" y="54" text-anchor="middle" font-family="Outfit,sans-serif" font-size="28" font-weight="600" fill="#bbf7d0">WR</text>
+        <line x1="24" y1="72" x2="88" y2="72" stroke="#4ade80" stroke-width="3"/>
+        <polygon points="20,72 34,64 34,80" fill="#4ade80"/>
+        <text x="60" y="90" text-anchor="middle" font-family="Outfit,sans-serif" font-size="9" font-weight="500" fill="#86efac" letter-spacing="4">WESTREADY</text>
+      </svg>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:28px;color:#bbf7d0;font-weight:600;letter-spacing:-0.5px">West<span style="color:#4ade80">Ready</span></div>
+      <div class="brand-legend">
+        <div class="brand-legend-item">
+          <div class="brand-legend-dot" style="background:#4ade80"></div>
+          <span data-fr="La flèche pointant vers la gauche symbolise la direction ouest — vers le continent américain, cap mis sur le marché US." data-en="The left-pointing arrow symbolizes the westward direction — toward the American continent, heading for the US market.">La flèche pointant vers la gauche symbolise la direction ouest — vers le continent américain, cap mis sur le marché US.</span>
+        </div>
+        <div class="brand-legend-item">
+          <div class="brand-legend-dot" style="background:#bbf7d0"></div>
+          <span data-fr="Le vert évoque la croissance, l'opportunité et la vitalité — l'énergie d'un marché à conquérir." data-en="Green evokes growth, opportunity and vitality — the energy of a market to conquer.">Le vert évoque la croissance, l'opportunité et la vitalité — l'énergie d'un marché à conquérir.</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact reveal" id="contact">
+  <div class="section-tag" data-fr="Nous contacter" data-en="Contact us">Nous contacter</div>
+  <h2 class="section-title" data-fr="Démarrons votre analyse" data-en="Let's start your analysis">Démarrons votre analyse</h2>
+  <p class="section-sub" data-fr="Décrivez votre produit, je vous réponds sous 24h." data-en="Describe your product, I'll reply within 24h.">Décrivez votre produit, je vous réponds sous 24h.</p>
+  <div class="contact-wrap">
+    <div class="contact-info">
+      <div class="contact-item">
+        <div class="contact-icon">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="2" y="4" width="14" height="10" rx="2" stroke="#15803d" stroke-width="1.5"/><path d="M2 7l7 4 7-4" stroke="#15803d" stroke-width="1.5"/></svg>
+        </div>
+        <div class="contact-text">
+          <strong>Email</strong>colomcharlet@gmail.com
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="8" r="3" stroke="#15803d" stroke-width="1.5"/><path d="M3 16c0-3.314 2.686-6 6-6s6 2.686 6 6" stroke="#15803d" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </div>
+        <div class="contact-text">
+          <strong data-fr="Thomas Colom-Charlet" data-en="Thomas Colom-Charlet">Thomas Colom-Charlet</strong>
+          <span data-fr="Étudiant en Master Commerce International · IAE de Caen" data-en="Master of International Business student · IAE de Caen">Étudiant en Master Commerce International · IAE de Caen</span>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 2C6.24 2 4 4.24 4 7c0 3.75 5 9 5 9s5-5.25 5-9c0-2.76-2.24-5-5-5zm0 6.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z" stroke="#15803d" stroke-width="1.5"/></svg>
+        </div>
+        <div class="contact-text">
+          <strong>Chapman University</strong>Orange, California · USA
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="6" stroke="#15803d" stroke-width="1.5"/><path d="M9 5v4l3 2" stroke="#15803d" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </div>
+        <div class="contact-text">
+          <strong data-fr="Réponse sous 24h" data-en="Response within 24h">Réponse sous 24h</strong>
+          <span data-fr="Livraison du rapport en 48h ouvrées" data-en="Report delivered in 48 business hours">Livraison du rapport en 48h ouvrées</span>
+        </div>
+      </div>
+    </div>
+    <div class="contact-form" id="contactForm">
+      <div class="form-row">
+        <div class="form-group">
+          <label data-fr="Prénom *" data-en="First name *">Prénom *</label>
+          <input type="text" id="fname" placeholder="Thomas" required>
+        </div>
+        <div class="form-group">
+          <label data-fr="Nom *" data-en="Last name *">Nom *</label>
+          <input type="text" id="lname" placeholder="Dupont" required>
+        </div>
+      </div>
+      <div class="form-group">
+        <label data-fr="Email professionnel *" data-en="Professional email *">Email professionnel *</label>
+        <input type="email" id="email" placeholder="contact@mamarque.com" required>
+      </div>
+      <div class="form-group">
+        <label data-fr="Entreprise / marque" data-en="Company / brand">Entreprise / marque</label>
+        <input type="text" id="company" placeholder="Ma Marque SAS">
+      </div>
+      <div class="form-group">
+        <label data-fr="Offre souhaitée" data-en="Desired offer">Offre souhaitée</label>
+        <select id="offer">
+          <option value="" data-fr="Choisir une offre..." data-en="Choose an offer...">Choisir une offre...</option>
+          <option value="Quick Check — 99€">Quick Check — 99€</option>
+          <option value="Market Fit — 199€">Market Fit — 199€</option>
+          <option value="Deep Dive — 349€">Deep Dive — 349€</option>
+          <option value="Je ne sais pas encore" data-fr="Je ne sais pas encore" data-en="Not sure yet">Je ne sais pas encore</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label data-fr="Décrivez votre produit *" data-en="Describe your product *">Décrivez votre produit *</label>
+        <textarea id="message" rows="4" placeholder="Mon produit est une crème hydratante bio, fabriquée en Bretagne, vendue 18€ en France. Je veux savoir si elle peut se vendre aux USA et à quel prix..." required></textarea>
+      </div>
+      <button type="button" class="form-submit" onclick="sendForm()">
+        <span data-fr="Envoyer ma demande" data-en="Send my request">Envoyer ma demande</span>
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 13L13 3M13 3H6M13 3v7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </button>
+      <div class="form-success" id="formSuccess">
+        ✓ <span data-fr="Message envoyé ! Je vous réponds sous 24h." data-en="Message sent! I'll reply within 24h.">Message envoyé ! Je vous réponds sous 24h.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-copy">© 2026 WestReady · Thomas Colom-Charlet</div>
+  <a href="#hero" class="logo" style="justify-content:center">
+    <svg viewBox="0 0 38 38" fill="none" width="32" height="32">
+      <circle cx="19" cy="19" r="18" fill="#0A5C38"/>
+      <text x="19" y="17" text-anchor="middle" font-family="Outfit,sans-serif" font-size="10" font-weight="600" fill="#bbf7d0">WR</text>
+      <line x1="8" y1="24" x2="28" y2="24" stroke="#4ade80" stroke-width="2"/>
+      <polygon points="6,24 12,20 12,28" fill="#4ade80"/>
+    </svg>
+  </a>
+  <div class="footer-right">colomcharlet@gmail.com</div>
+</footer>
 
 <script>
-function toggle(el){
-  el.classList.toggle("active");
+// ── CURSOR ──────────────────────────────────────────────
+const cur=document.getElementById('cursor'),ring=document.getElementById('cursorRing');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px'});
+function animRing(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animRing)}
+animRing();
+document.querySelectorAll('a,button,.dot,.lang-btn').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{cur.style.width='20px';cur.style.height='20px';ring.style.width='50px';ring.style.height='50px';ring.style.opacity='.3'});
+  el.addEventListener('mouseleave',()=>{cur.style.width='10px';cur.style.height='10px';ring.style.width='36px';ring.style.height='36px';ring.style.opacity='.5'});
+});
+
+// ── NAV SCROLL ───────────────────────────────────────────
+window.addEventListener('scroll',()=>{
+  document.getElementById('nav').classList.toggle('scrolled',window.scrollY>60);
+});
+
+// ── REVEAL ───────────────────────────────────────────────
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')});
+},{threshold:.12});
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+
+// ── CAROUSEL ─────────────────────────────────────────────
+let current=0;
+const cards=document.querySelectorAll('.offer-card');
+const dots=document.querySelectorAll('.dot');
+function updateCarousel(){
+  const isMobile=window.innerWidth<768;
+  const offset=isMobile?current*(340+24):current*(340+24);
+  document.getElementById('carousel').style.transform=`translateX(-${offset}px)`;
+  dots.forEach((d,i)=>d.classList.toggle('active',i===current));
+}
+function moveCarousel(dir){
+  current=Math.max(0,Math.min(cards.length-1,current+dir));
+  updateCarousel();
+}
+function goToSlide(i){current=i;updateCarousel();}
+
+// ── CONTACT SCROLL ───────────────────────────────────────
+function scrollToContact(offer){
+  document.getElementById('contact').scrollIntoView({behavior:'smooth'});
+  setTimeout(()=>{
+    const sel=document.getElementById('offer');
+    if(offer&&sel)sel.value=offer;
+  },600);
 }
 
-function sendMail(e){
-  e.preventDefault();
-
-  const product = document.getElementById("product").value;
-  const email = document.getElementById("email").value;
-  const desc = document.getElementById("desc").value;
-
-  const subject = encodeURIComponent("Demande analyse produit");
-  const body = encodeURIComponent(
-    "Produit: " + product + "\n\nEmail: " + email + "\n\nDescription:\n" + desc
+// ── FORM SUBMIT ──────────────────────────────────────────
+function sendForm(){
+  const fname=document.getElementById('fname').value.trim();
+  const lname=document.getElementById('lname').value.trim();
+  const email=document.getElementById('email').value.trim();
+  const offer=document.getElementById('offer').value;
+  const msg=document.getElementById('message').value.trim();
+  if(!fname||!email||!msg){alert('Merci de remplir les champs obligatoires (*)');return;}
+  const subject=encodeURIComponent('WestReady — Demande d\'analyse'+(offer?' : '+offer:''));
+  const body=encodeURIComponent(
+    'Prénom : '+fname+'\nNom : '+lname+
+    '\nEmail : '+email+
+    '\nEntreprise : '+(document.getElementById('company').value||'—')+
+    '\nOffre souhaitée : '+(offer||'Non précisée')+
+    '\n\nDescription du produit :\n'+msg
   );
+  window.location.href='mailto:colomcharlet@gmail.com?subject='+subject+'&body='+body;
+  document.getElementById('formSuccess').style.display='block';
+  setTimeout(()=>document.getElementById('formSuccess').style.display='none',5000);
+}
 
-  window.location.href = `mailto:colomcharlet@gmail.com?subject=${subject}&body=${body}`;
+// ── TRADUCTION ───────────────────────────────────────────
+let lang='fr';
+function setLang(l){
+  lang=l;
+  document.querySelectorAll('.lang-btn').forEach(b=>b.classList.toggle('active',b.textContent===l.toUpperCase()));
+  document.querySelectorAll('[data-'+l+']').forEach(el=>{
+    const val=el.getAttribute('data-'+l);
+    if(el.tagName==='INPUT'||el.tagName==='TEXTAREA'||el.tagName==='OPTION'){el.placeholder=val||el.placeholder}
+    else{el.innerHTML=val}
+  });
+  document.documentElement.lang=l;
 }
 </script>
-
 </body>
 </html>
